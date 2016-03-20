@@ -1,6 +1,7 @@
 package hu.durfi.wonders.card;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,7 +12,17 @@ public enum Symbol {
     CLAY, ORE, STONE, WOOD,
     GLASS, LOOM, PAPYRUS,
     COIN,
-    SHIELD;
+    SHIELD,
+    TRADE_BROWN_RIGHT,
+    TRADE_BROWN_LEFT,
+    TRADE_GRAY;
+
+    public boolean isBrown() {
+        return Arrays.asList(new Symbol[] {CLAY, ORE, STONE, WOOD}).contains(this);
+    }
+    public boolean isGray() {
+        return Arrays.asList(new Symbol[] {GLASS, LOOM, PAPYRUS}).contains(this);
+    }
 
     public static List<Symbol> more(int count, Symbol symbol) {
         List<Symbol> list = new ArrayList<Symbol>();

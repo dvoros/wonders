@@ -3,7 +3,6 @@ package hu.durfi.wonders.game;
 import hu.durfi.wonders.card.Card;
 import hu.durfi.wonders.card.Symbol;
 import hu.durfi.wonders.player.Player;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
@@ -17,16 +16,10 @@ import static org.hamcrest.Matchers.*;
  */
 public class StateTest {
 
-    private State uut;
-
-    @Before
-    public void setUp() throws Exception {
-        uut = new State();
-    }
-
     @Test
     public void testCopyConstructorCopiesBuildings() {
         Player me = mock(Player.class);
+        State uut = new State(Arrays.asList(new Player[] {me}));
         Set<Card> myCards = new HashSet<>(Arrays.asList(new Card[] {mock(Card.class), mock(Card.class)}));
         uut.buildings.put(me, myCards);
 
@@ -40,6 +33,7 @@ public class StateTest {
     @Test
     public void testCopyConstructorCopiesCoins() {
         Player me = mock(Player.class);
+        State uut = new State(Arrays.asList(new Player[] {me}));
         uut.coins.put(me, 5);
 
         State nextState = new State(uut);
@@ -50,18 +44,46 @@ public class StateTest {
     }
 
     @Test
-    public void testCopyConstructorCopiesSymbols() {
+    public void testCopyConstructorCopiesTokens() {
         Player me = mock(Player.class);
+        State uut = new State(Arrays.asList(new Player[] {me}));
+
         Symbol symbol = Symbol.SHIELD;
         Map<Symbol, Integer> mySymbols = new HashMap<>();
         mySymbols.put(symbol, 2);
-        uut.symbols.put(me, mySymbols);
+        uut.tokens.put(me, mySymbols);
 
         State nextState = new State(uut);
-        nextState.addSymbol(me, symbol);
+        nextState.addToken(me, symbol);
 
-        assertThat(nextState.symbols, is(not(equalTo(uut.symbols))));
-        assertThat(nextState.symbols.get(me).get(symbol), equalTo(uut.symbols.get(me).get(symbol) + 1));
+        assertThat(nextState.tokens, is(not(equalTo(uut.tokens))));
+        assertThat(nextState.tokens.get(me).get(symbol), equalTo(uut.tokens.get(me).get(symbol) + 1));
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testTransferCoinsNotEnough() {
+        Player me = mock(Player.class);
+        Player you = mock(Player.class);
+        State uut = new State(Arrays.asList(new Player[] {me, you}));
+        uut.transferCoins(5, me, you);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testTransferCoinsToMyself() {
+        Player me = mock(Player.class);
+        State uut = new State(Arrays.asList(new Player[] {me}));
+        uut.transferCoins(5, me, me);
+    }
+
+    @Test
+    public void testTransferCoinsOk() {
+        Player me = mock(Player.class);
+        Player you = mock(Player.class);
+        State uut = new State(Arrays.asList(new Player[] {me, you}));
+        uut.coins.put(me, 5);
+        uut.transferCoins(5, me, you);
+        assertThat(uut.coins.get(me), equalTo(0));
+        assertThat(uut.coins.get(you), equalTo(5));
     }
 
 }
