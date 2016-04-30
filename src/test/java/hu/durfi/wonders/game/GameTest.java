@@ -33,32 +33,6 @@ public class GameTest {
     }
 
     @Test
-    public void testSelectCardsForAgeOnePlayer() throws Exception {
-        final int num_of_players = 1;
-        List<Player> players = mock(List.class);
-        Mockito.when(players.size()).thenReturn(num_of_players);
-        game.players = players;
-        Collection<Card> cards = game.selectCardsForAge(num_of_players);
-        assertTrue(cards.stream().allMatch( c -> c.minPlayers >= num_of_players));
-
-        // TODO: when deck is complete, uncomment this assertion:
-        // assertEquals(cards.size(), num_of_players * 7);
-    }
-
-    @Test
-    public void testSelectCardsForAgeFivePlayers() throws Exception {
-        final int num_of_players = 5;
-        List<Player> players = mock(List.class);
-        Mockito.when(players.size()).thenReturn(num_of_players);
-        game.players = players;
-        Collection<Card> cards = game.selectCardsForAge(num_of_players);
-        assertTrue(cards.stream().allMatch( c -> c.minPlayers >= num_of_players));
-
-        // TODO: when deck is complete, uncomment this assertion:
-        // assertEquals(cards.size(), num_of_players * 7);
-    }
-
-    @Test
     public void testSetNeighbors3Players() throws Exception {
         List<Player> players = new ArrayList<>();
         Player one = new Player("first", mock(Strategy.class));

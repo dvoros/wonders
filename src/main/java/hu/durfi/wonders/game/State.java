@@ -41,6 +41,9 @@ public class State {
 
     public State(List<Player> players) {
         this.players = players;
+        for (Player p : players) {
+            coins.put(p, Game.STARTING_COINS);
+        }
     }
 
     public void addBuilding(Player player, Card building) {
