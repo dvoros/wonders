@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import java.util.Collection;
 import java.util.List;
 
+import static com.sun.xml.internal.ws.dump.LoggingDumpTube.Position.Before;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
@@ -31,7 +32,8 @@ public class DealerTest {
         final int num_of_players = 1;
         List<Player> players = mock(List.class);
         Mockito.when(players.size()).thenReturn(num_of_players);
-        Collection<Card> cards = uut.selectCardsForAge(num_of_players);
+        Mockito.when(gameMock.getPlayers()).thenReturn(players);
+        Collection<Card> cards = uut.selectCardsForAge(1);
         assertTrue(cards.stream().allMatch( c -> c.minPlayers >= num_of_players));
 
         // TODO: when deck is complete, uncomment this assertion:
@@ -43,7 +45,8 @@ public class DealerTest {
         final int num_of_players = 5;
         List<Player> players = mock(List.class);
         Mockito.when(players.size()).thenReturn(num_of_players);
-        Collection<Card> cards = uut.selectCardsForAge(num_of_players);
+        Mockito.when(gameMock.getPlayers()).thenReturn(players);
+        Collection<Card> cards = uut.selectCardsForAge(1);
         assertTrue(cards.stream().allMatch( c -> c.minPlayers >= num_of_players));
 
         // TODO: when deck is complete, uncomment this assertion:

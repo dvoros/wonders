@@ -26,7 +26,7 @@ public class Dealer {
      * Discard last card in players hand when an age ends.
      */
     public void discardLastCard() {
-        for (Player p : game.players) {
+        for (Player p : game.getPlayers()) {
             if (p.cardsInHand.size() != 1) {
                 throw new RuntimeException("Can't end round! More than one card in hand for player: " + p.name);
             }
@@ -42,7 +42,7 @@ public class Dealer {
         // Clear discard pile
         game.discardPile.clear();
         // Discard previous cards
-        for (Player p : game.players) {
+        for (Player p : game.getPlayers()) {
             p.cardsInHand.clear();
         }
         // Deal cards
@@ -51,7 +51,7 @@ public class Dealer {
         int i = 0;
         while (iter.hasNext()) {
             Card c = iter.next();
-            game.players.get(i % game.players.size()).cardsInHand.add(c);
+            game.getPlayers().get(i % game.getPlayers().size()).cardsInHand.add(c);
             i ++;
         }
     }
@@ -61,14 +61,14 @@ public class Dealer {
      * depends on the current age.
      */
     public void passAroundCards() {
-        List<List<Card>> cardsInHands = game.players.stream().map(p -> p.cardsInHand).collect(Collectors.toList());
+        List<List<Card>> cardsInHands = game.getPlayers().stream().map(p -> p.cardsInHand).collect(Collectors.toList());
         if (game.currentAge % 2 == 1) {
             cardsInHands.add(0, cardsInHands.remove(cardsInHands.size()-1));
         } else {
             cardsInHands.add(cardsInHands.remove(0));
         }
-        for (int i = 0; i < game.players.size(); i ++) {
-            game.players.get(i).cardsInHand = cardsInHands.get(i);
+        for (int i = 0; i < game.getPlayers().size(); i ++) {
+            game.getPlayers().get(i).cardsInHand = cardsInHands.get(i);
         }
     }
 
@@ -79,7 +79,7 @@ public class Dealer {
      */
     Collection<Card> selectCardsForAge(int age) {
         List<Card> cardsInAge = deck.cards.stream()
-                .filter(c -> c.age == age && c.minPlayers >= game.players.size())
+                .filter(c -> c.age == age && c.minPlayers >= game.getPlayers().size())
                 .collect(Collectors.toList());
         Collections.shuffle(cardsInAge);
         return cardsInAge;

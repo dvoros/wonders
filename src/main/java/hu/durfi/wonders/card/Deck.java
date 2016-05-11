@@ -23,6 +23,7 @@ public class Deck {
         cards.add(new Card(1, "clay pool", BROWN, one(CLAY), none(), 0, 5));
         cards.add(new Card(1, "ore vein", BROWN, one(ORE), none(), 0, 3));
         cards.add(new Card(1, "ore vein", BROWN, one(ORE), none(), 0, 4));
+        // cards.add(new Card(1, "tree farm", BROWN, ))
 
         cards.add(new Card(1, "pawnshop", BLUE, none(), none(), 3, 4));
         cards.add(new Card(1, "pawnshop", BLUE, none(), none(), 3, 7));

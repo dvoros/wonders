@@ -36,7 +36,9 @@ public class Game {
 
     Dealer dealer = new Dealer(this);
     List<Card> discardPile = new ArrayList<>();
-    List<Player> players;
+    private List<Player> players;
+
+
 
     public static void main(String[] args) {
         // Logging
@@ -66,6 +68,7 @@ public class Game {
 
     private void resetForNewGame() {
         state = new State(players);
+        state.addStartingCoins();
         currentAge = 1;
         currentRound = 1;
         discardPile.clear();
@@ -170,5 +173,13 @@ public class Game {
             throw new InvalidActionException(purchase.buyer + " doesn't have enough coins to buy "
                     + purchase.resource + " from " + purchase.seller);
         }
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }
